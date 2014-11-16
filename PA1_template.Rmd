@@ -7,14 +7,49 @@ output:
 
 
 ## Loading and preprocessing the data
+Load the source CSV file setting the locale to English (my default locale is Spanish)
 
-
+```{r echo=TRUE}
+activity = read.csv("activity.csv", header=T, colClasses=c("integer", "Date", "integer"))
+Sys.setlocale("LC_TIME", "en_US")
+```
 
 ## What is mean total number of steps taken per day?
 
+For data summarization we will use the dplyr library
+```{r message=FALSE}
+library(dplyr)
+```
+
+```{r echo=TRUE}
+activity_by_day = group_by(activity, date)
+totals_by_day = summarise(activity_by_day, tot=sum(steps))
+hist(totals_by_day$tot, main = 'Total Steps per Day Histogram', 
+                        xlab = 'Total number of steps per day')
+mean_steps = mean(totals_by_day$tot, na.rm = TRUE)
+median_steps = median(totals_by_day$tot, na.rm = TRUE)
+abline(v=mean_steps, col="blue")
+abline(v=median_steps, col="green")
+```
+
+The mean steps per day is `r mean_steps` (shown in blue) and the median is `r median_steps` (shown in green)
 
 
 ## What is the average daily activity pattern?
+
+```{r echo=TRUE}
+activity_by_interval = group_by(activity, interval)
+ave_by_interval = summarise(activity_by_interval, ave=mean(steps, na.rm=TRUE))
+plot(ave ~ interval, data = ave_by_interval, type = 'l', 
+                     main = 'Average Steps per Interval',
+                     ylab = 'Steps')
+max_activity_interval = ave_by_interval[which.max(ave_by_interval$ave),]$interval
+abline(v=max_activity_interval, col="red")
+```
+
+On average the interval with highest number of steps is `r max_activity_interval` (shown in red)
+
+
 
 
 
