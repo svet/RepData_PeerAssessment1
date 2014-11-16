@@ -41,7 +41,8 @@ abline(v=median_steps, col="green")
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 
-The mean steps per day is 1.0766 &times; 10<sup>4</sup> (shown in blue) and the median is 10765 (shown in green)
+The mean steps per day is 1.0766 &times; 10<sup>4</sup> (shown in blue) and 
+the median is 10765 (shown in green)
 
 
 ## What is the average daily activity pattern?
@@ -115,16 +116,19 @@ abline(v=median_steps_ex, col="green")
 
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
 
-The mean steps per day is 1.0766 &times; 10<sup>4</sup> (shown in blue) and the median is 1.0766 &times; 10<sup>4</sup> (shown in green).
+The mean steps per day is 1.0766 &times; 10<sup>4</sup> (shown in blue) and 
+the median is 1.0766 &times; 10<sup>4</sup> (shown in green).
 
-There is no significant change in the values for the extended data set (actually this is due to the method used to fill na NAs).
+There is no significant change in the values for the extended data set 
+(actually this is due to the method used to fill na NAs).
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
 Add new factor variable with levels "weekend" and "weekday"
 
 ```r
-activity_extended = mutate(activity_extended, daytype = ifelse( strftime(date, "%u") >= 6, "weekend", "weekday"))
+activity_extended = mutate(activity_extended, 
+                            daytype = ifelse( strftime(date, "%u") >= 6, "weekend", "weekday"))
 activity_extended$daytype <- as.factor(activity_extended$daytype)
 ```
 
@@ -132,12 +136,14 @@ Difference between weekend and weekdays:
 
 ```r
 library(lattice)
-ave_int <- aggregate(steps ~ interval + daytype,data= activity_extended, FUN = 'mean', na.rm=TRUE)
-xyplot(steps ~ interval | factor(daytype), data = ave_int, layout=c(1,2), type = 'l')
+ave_int <- aggregate(steps ~ interval + daytype,
+                     data = activity_extended, FUN = 'mean')
+
+xyplot(steps ~ interval | factor(daytype), 
+         data = ave_int, layout=c(1,2), type = 'l')
 ```
 
 ![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
-
 
 
 

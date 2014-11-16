@@ -32,7 +32,8 @@ abline(v=mean_steps, col="blue")
 abline(v=median_steps, col="green")
 ```
 
-The mean steps per day is `r mean_steps` (shown in blue) and the median is `r median_steps` (shown in green)
+The mean steps per day is `r mean_steps` (shown in blue) and 
+the median is `r median_steps` (shown in green)
 
 
 ## What is the average daily activity pattern?
@@ -92,25 +93,30 @@ abline(v=mean_steps_ex, col="blue")
 abline(v=median_steps_ex, col="green")
 ```
 
-The mean steps per day is `r mean_steps_ex` (shown in blue) and the median is `r median_steps_ex` (shown in green).
+The mean steps per day is `r mean_steps_ex` (shown in blue) and 
+the median is `r median_steps_ex` (shown in green).
 
-There is no significant change in the values for the extended data set (actually this is due to the method used to fill na NAs).
+There is no significant change in the values for the extended data set 
+(actually this is due to the method used to fill na NAs).
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
 Add new factor variable with levels "weekend" and "weekday"
 ```{r echo=TRUE}
-activity_extended = mutate(activity_extended, daytype = ifelse( strftime(date, "%u") >= 6, "weekend", "weekday"))
+activity_extended = mutate(activity_extended, 
+                            daytype = ifelse( strftime(date, "%u") >= 6, "weekend", "weekday"))
 activity_extended$daytype <- as.factor(activity_extended$daytype)
 ```
 
 Difference between weekend and weekdays:
 ```{r echo=TRUE}
 library(lattice)
-ave_int <- aggregate(steps ~ interval + daytype,data= activity_extended, FUN = 'mean', na.rm=TRUE)
-xyplot(steps ~ interval | factor(daytype), data = ave_int, layout=c(1,2), type = 'l')
-```
+ave_int <- aggregate(steps ~ interval + daytype,
+                     data = activity_extended, FUN = 'mean')
 
+xyplot(steps ~ interval | factor(daytype), 
+         data = ave_int, layout=c(1,2), type = 'l')
+```
 
 
 
